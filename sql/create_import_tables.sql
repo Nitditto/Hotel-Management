@@ -45,7 +45,7 @@
 --     FOREIGN KEY (idcreator) REFERENCES tblStaff(id) ON DELETE CASCADE
 -- );
 
--- -- 5. Chi tiết phiếu nhập (Import Detail) - Đã đổi 'quantity' sang INT
+-- -- 5. Chi tiết phiếu nhập (Import Detail) 
 -- CREATE TABLE tblImportDetail (
 --     id INT AUTO_INCREMENT PRIMARY KEY,
 --     idinvoice INT NOT NULL,
@@ -57,11 +57,7 @@
 -- );
 
 
--- -- =============================================
--- -- DỮ LIỆU MẪU (Sample Data)
--- -- =============================================
 
--- -- Thêm tài khoản nhân viên (sử dụng cột 'role')
 -- INSERT INTO tblStaff (username, password, name, role) VALUES
 -- ('truongnv', '123456', 'Nguyen Van Truong', 'inventoryStaff');
 
