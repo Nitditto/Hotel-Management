@@ -2,21 +2,29 @@ package model;
 
 import java.io.Serializable;
 
-public class ImportInvoiceDetail implements Serializable {
+public class ImportDetail implements Serializable {
 	private int id;
 	private Material material;
-	private float quantity;
+	private int quantity;
 	private float unitPrice;
 
-	public ImportInvoiceDetail() {
+	public ImportDetail() {
 		super();
 	}
 
-	public ImportInvoiceDetail(Material material, float quantity, float unitPrice) {
+	public ImportDetail(Material material, int quantity, float unitPrice) {
 		super();
 		this.material = material;
 		this.quantity = quantity;
 		this.unitPrice = unitPrice;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public int getId() {
@@ -35,14 +43,6 @@ public class ImportInvoiceDetail implements Serializable {
 		this.material = material;
 	}
 
-	public float getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(float quantity) {
-		this.quantity = quantity;
-	}
-
 	public float getUnitPrice() {
 		return unitPrice;
 	}
@@ -51,10 +51,6 @@ public class ImportInvoiceDetail implements Serializable {
 		this.unitPrice = unitPrice;
 	}
 
-	/**
-	 * Calculate total = quantity * unitPrice
-	 * @return total amount for this detail line
-	 */
 	public float getTotal() {
 		return quantity * unitPrice;
 	}

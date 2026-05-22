@@ -8,7 +8,7 @@ import javax.swing.table.*;
 import dao.MaterialDAO;
 import model.ImportInvoice;
 import model.Material;
-import model.User;
+import model.Staff;
 
 public class SearchMaterialFrm extends JFrame implements ActionListener {
 	private ArrayList<Material> listMaterial;
@@ -16,10 +16,10 @@ public class SearchMaterialFrm extends JFrame implements ActionListener {
 	private JButton btnSearch, btnAddNew, btnViewInvoice;
 	private JTable tblResult;
 	private DefaultTableModel tableModel;
-	private User user;
+	private Staff user;
 	private ImportInvoice importInvoice;
 
-	public SearchMaterialFrm(User user, ImportInvoice importInvoice) {
+	public SearchMaterialFrm(Staff user, ImportInvoice importInvoice) {
 		super("Spa Management System");
 		this.user = user;
 		this.importInvoice = importInvoice;

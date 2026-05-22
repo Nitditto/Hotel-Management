@@ -19,9 +19,9 @@ public class SearchSupplierFrm extends JFrame implements ActionListener {
 	private JButton btnSearch, btnAddNew, btnCancel;
 	private JTable tblResult;
 	private DefaultTableModel tableModel;
-	private User user;
+	private Staff user;
 
-	public SearchSupplierFrm(User user) {
+	public SearchSupplierFrm(Staff user) {
 		super("Spa Management System");
 		this.user = user;
 		listSupplier = new ArrayList<>();

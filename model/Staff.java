@@ -2,23 +2,23 @@ package model;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+public class Staff implements Serializable {
 	private int id;
 	private String username;
 	private String password;
 	private String name;
-	private String position;
-	
-	public User() {
+	private String role;
+
+	public Staff() {
 		super();
 	}
 
-	public User(String username, String password, String name, String position) {
+	public Staff(String username, String password, String name, String role) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.name = name;
-		this.position = position;
+		this.role = role;
 	}
 
 	public int getId() {
@@ -53,13 +53,12 @@ public class User implements Serializable{
 		this.name = name;
 	}
 
-	public String getPosition() {
-		return position;
+	public String getRole() {
+		return role;
 	}
 
-	public void setPosition(String position) {
-		this.position = position;
+	public void setRole(String role) {
+		this.role = role;
 	}
-	
-	
+
 }

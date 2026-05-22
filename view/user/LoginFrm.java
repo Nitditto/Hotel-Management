@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import dao.StaffDAO;
-import model.User;
+import model.Staff;
 
 public class LoginFrm extends JFrame implements ActionListener {
 	private JTextField txtUsername;
@@ -26,14 +26,18 @@ public class LoginFrm extends JFrame implements ActionListener {
 		// Title
 		JLabel lblTitle = new JLabel("Login");
 		lblTitle.setFont(new Font("SansSerif", Font.BOLD, 32));
-		gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		pnForm.add(lblTitle, gbc);
 
 		// Username label
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setFont(new Font("SansSerif", Font.BOLD, 14));
-		gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 1;
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.gridwidth = 1;
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.fill = GridBagConstraints.NONE;
 		pnForm.add(lblUsername, gbc);
@@ -41,7 +45,8 @@ public class LoginFrm extends JFrame implements ActionListener {
 		// Username field
 		txtUsername = new JTextField(20);
 		txtUsername.setFont(new Font("SansSerif", Font.PLAIN, 14));
-		gbc.gridx = 1; gbc.gridy = 1;
+		gbc.gridx = 1;
+		gbc.gridy = 1;
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		pnForm.add(txtUsername, gbc);
@@ -49,7 +54,8 @@ public class LoginFrm extends JFrame implements ActionListener {
 		// Password label
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("SansSerif", Font.BOLD, 14));
-		gbc.gridx = 0; gbc.gridy = 2;
+		gbc.gridx = 0;
+		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.fill = GridBagConstraints.NONE;
 		pnForm.add(lblPassword, gbc);
@@ -57,7 +63,8 @@ public class LoginFrm extends JFrame implements ActionListener {
 		// Password field
 		txtPassword = new JPasswordField(20);
 		txtPassword.setFont(new Font("SansSerif", Font.PLAIN, 14));
-		gbc.gridx = 1; gbc.gridy = 2;
+		gbc.gridx = 1;
+		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		pnForm.add(txtPassword, gbc);
@@ -72,7 +79,9 @@ public class LoginFrm extends JFrame implements ActionListener {
 		btnLogin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnLogin.setPreferredSize(new Dimension(130, 38));
 		btnLogin.addActionListener(this);
-		gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.gridwidth = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.NONE;
 		gbc.insets = new Insets(20, 10, 10, 10);
@@ -88,13 +97,13 @@ public class LoginFrm extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnLogin)) {
-			User user = new User();
-			user.setUsername(txtUsername.getText().trim());
-			user.setPassword(new String(txtPassword.getPassword()));
+			Staff Staff = new Staff();
+			Staff.setUsername(txtUsername.getText().trim());
+			Staff.setPassword(new String(txtPassword.getPassword()));
 
 			StaffDAO sd = new StaffDAO();
-			if (sd.checkLogin(user)) {
-				(new StaffHomeFrm(user)).setVisible(true);
+			if (sd.checkLogin(Staff)) {
+				(new StaffHomeFrm(Staff)).setVisible(true);
 				this.dispose();
 			} else {
 				JOptionPane.showMessageDialog(this, "Incorrect username and/or password!");

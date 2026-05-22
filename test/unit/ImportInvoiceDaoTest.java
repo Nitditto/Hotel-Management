@@ -10,10 +10,10 @@ import dao.ImportInvoiceDAO;
 import dao.MaterialDAO;
 import dao.SupplierDAO;
 import model.ImportInvoice;
-import model.ImportInvoiceDetail;
+import model.ImportDetail;
 import model.Material;
 import model.Supplier;
-import model.User;
+import model.Staff;
 
 public class ImportInvoiceDaoTest {
 	ImportInvoiceDAO invoiceDAO = new ImportInvoiceDAO();
@@ -39,8 +39,8 @@ public class ImportInvoiceDaoTest {
 	/**
 	 * Helper: create a dummy user (staff) for testing
 	 */
-	private User getDummyUser() {
-		User u = new User();
+	private Staff getDummyUser() {
+		Staff u = new Staff();
 		u.setId(1);
 		u.setName("Test Staff");
 		return u;
@@ -61,7 +61,7 @@ public class ImportInvoiceDaoTest {
 			Assert.assertNotNull("Sample material must exist", m);
 
 			ImportInvoice inv = new ImportInvoice(s, getDummyUser(), new Date(), "Test invoice #1");
-			inv.getDetails().add(new ImportInvoiceDetail(m, 10, m.getUnitPrice()));
+			inv.getDetails().add(new ImportDetail(m, 10, m.getUnitPrice()));
 
 			boolean result = invoiceDAO.addImportInvoice(inv);
 			Assert.assertTrue(result);
@@ -96,7 +96,7 @@ public class ImportInvoiceDaoTest {
 			Assert.assertNotNull(m);
 
 			ImportInvoice inv = new ImportInvoice(s, getDummyUser(), new Date(), "Test invoice #2");
-			inv.getDetails().add(new ImportInvoiceDetail(m, 5, m.getUnitPrice()));
+			inv.getDetails().add(new ImportDetail(m, 5, m.getUnitPrice()));
 
 			boolean result = invoiceDAO.addImportInvoice(inv);
 			Assert.assertTrue(result);
@@ -130,7 +130,7 @@ public class ImportInvoiceDaoTest {
 			Assert.assertTrue(m.getId() > 0);
 
 			ImportInvoice inv = new ImportInvoice(s, getDummyUser(), new Date(), "Test invoice #3");
-			inv.getDetails().add(new ImportInvoiceDetail(m, 3, m.getUnitPrice()));
+			inv.getDetails().add(new ImportDetail(m, 3, m.getUnitPrice()));
 
 			boolean result = invoiceDAO.addImportInvoice(inv);
 			Assert.assertTrue(result);
@@ -163,7 +163,7 @@ public class ImportInvoiceDaoTest {
 			materialDAO.addMaterial(m);
 
 			ImportInvoice inv = new ImportInvoice(s, getDummyUser(), new Date(), "Test invoice #4");
-			inv.getDetails().add(new ImportInvoiceDetail(m, 7, m.getUnitPrice()));
+			inv.getDetails().add(new ImportDetail(m, 7, m.getUnitPrice()));
 
 			boolean result = invoiceDAO.addImportInvoice(inv);
 			Assert.assertTrue(result);
@@ -195,8 +195,8 @@ public class ImportInvoiceDaoTest {
 			Assert.assertNotNull(m);
 
 			ImportInvoice inv = new ImportInvoice(s, getDummyUser(), new Date(), "Test invoice #5");
-			inv.getDetails().add(new ImportInvoiceDetail(m, 5, m.getUnitPrice()));
-			inv.getDetails().add(new ImportInvoiceDetail(m, 10, m.getUnitPrice()));
+			inv.getDetails().add(new ImportDetail(m, 5, m.getUnitPrice()));
+			inv.getDetails().add(new ImportDetail(m, 10, m.getUnitPrice()));
 
 			boolean result = invoiceDAO.addImportInvoice(inv);
 			Assert.assertTrue(result);
@@ -231,8 +231,8 @@ public class ImportInvoiceDaoTest {
 			Assert.assertNotNull(m2);
 
 			ImportInvoice inv = new ImportInvoice(s, getDummyUser(), new Date(), "Test invoice #6");
-			inv.getDetails().add(new ImportInvoiceDetail(m1, 5, m1.getUnitPrice()));
-			inv.getDetails().add(new ImportInvoiceDetail(m2, 3, m2.getUnitPrice()));
+			inv.getDetails().add(new ImportDetail(m1, 5, m1.getUnitPrice()));
+			inv.getDetails().add(new ImportDetail(m2, 3, m2.getUnitPrice()));
 
 			boolean result = invoiceDAO.addImportInvoice(inv);
 			Assert.assertTrue(result);
@@ -268,7 +268,7 @@ public class ImportInvoiceDaoTest {
 
 			float customPrice = 999999;
 			ImportInvoice inv = new ImportInvoice(s, getDummyUser(), new Date(), "Test invoice #7");
-			inv.getDetails().add(new ImportInvoiceDetail(m, 2, customPrice));
+			inv.getDetails().add(new ImportDetail(m, 2, customPrice));
 
 			boolean result = invoiceDAO.addImportInvoice(inv);
 			Assert.assertTrue(result);
@@ -313,7 +313,7 @@ public class ImportInvoiceDaoTest {
 		Material m = getExistingMaterial("Kem");
 
 		ImportInvoice inv = new ImportInvoice(s, getDummyUser(), new Date(), "Test invoice #9 - cancelled");
-		inv.getDetails().add(new ImportInvoiceDetail(m, 5, m.getUnitPrice()));
+		inv.getDetails().add(new ImportDetail(m, 5, m.getUnitPrice()));
 
 		// Simulate cancel: do NOT call addImportInvoice
 		Assert.assertEquals(0, inv.getId()); // id is still 0 (not saved)

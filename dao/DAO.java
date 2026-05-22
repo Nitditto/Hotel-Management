@@ -8,7 +8,7 @@ public class DAO {
 
 	public DAO() {
 		if (con == null) {
-			String dbUrl = "jdbc:mysql://127.0.0.1:3306/importing_materials?useSSL=false&autoReconnect=true";
+			String dbUrl = "jdbc:mysql://127.0.0.1:3306/importing_materials?useSSL=false&autoReconnect=true&allowPublicKeyRetrieval=true";
 			String dbClass = "com.mysql.cj.jdbc.Driver";
 
 			try {
