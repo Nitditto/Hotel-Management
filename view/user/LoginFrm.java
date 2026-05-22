@@ -1,93 +1,109 @@
 package view.user;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
-import dao.UserDAO;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import dao.StaffDAO;
 import model.User;
 
-public class LoginFrm extends JFrame implements ActionListener{
+public class LoginFrm extends JFrame implements ActionListener {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private JButton btnLogin;
-	
-	public LoginFrm(){
-		super("Login");		
-		txtUsername = new JTextField(15);
-		txtPassword = new JPasswordField(15);
-		txtPassword.setEchoChar('*');
+
+	public LoginFrm() {
+		super("Spa Management System");
+
+		JPanel pnMain = new JPanel(new GridBagLayout());
+		pnMain.setBackground(new Color(235, 235, 235));
+
+		JPanel pnForm = new JPanel(new GridBagLayout());
+		pnForm.setBackground(new Color(235, 235, 235));
+
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(10, 10, 10, 10);
+
+		// Title
+		JLabel lblTitle = new JLabel("Login");
+		lblTitle.setFont(new Font("SansSerif", Font.BOLD, 32));
+		gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
+		gbc.anchor = GridBagConstraints.CENTER;
+		pnForm.add(lblTitle, gbc);
+
+		// Username label
+		JLabel lblUsername = new JLabel("Username:");
+		lblUsername.setFont(new Font("SansSerif", Font.BOLD, 14));
+		gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 1;
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.fill = GridBagConstraints.NONE;
+		pnForm.add(lblUsername, gbc);
+
+		// Username field
+		txtUsername = new JTextField(20);
+		txtUsername.setFont(new Font("SansSerif", Font.PLAIN, 14));
+		gbc.gridx = 1; gbc.gridy = 1;
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		pnForm.add(txtUsername, gbc);
+
+		// Password label
+		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setFont(new Font("SansSerif", Font.BOLD, 14));
+		gbc.gridx = 0; gbc.gridy = 2;
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.fill = GridBagConstraints.NONE;
+		pnForm.add(lblPassword, gbc);
+
+		// Password field
+		txtPassword = new JPasswordField(20);
+		txtPassword.setFont(new Font("SansSerif", Font.PLAIN, 14));
+		gbc.gridx = 1; gbc.gridy = 2;
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		pnForm.add(txtPassword, gbc);
+
+		// Login button - blue
 		btnLogin = new JButton("Login");
-		
-		JPanel pnMain = new JPanel();
-		pnMain.setSize(this.getSize().width-5, this.getSize().height-20);		
-		pnMain.setLayout(new BoxLayout(pnMain,BoxLayout.PAGE_AXIS));
-		pnMain.add(Box.createRigidArea(new Dimension(0,10)));
-		
-		JLabel lblHome = new JLabel("Login");
-		lblHome.setAlignmentX(Component.CENTER_ALIGNMENT);	
-		lblHome.setFont (lblHome.getFont ().deriveFont (20.0f));
-		pnMain.add(lblHome);
-		pnMain.add(Box.createRigidArea(new Dimension(0,20)));
-		
-		JPanel pnUsername = new JPanel();
-		pnUsername.setLayout(new FlowLayout());
-		pnUsername.add(new JLabel("Username:"));
-		pnUsername.add(txtUsername);
-		pnMain.add(pnUsername);
-		
-		JPanel pnPass = new JPanel();
-		pnPass.setLayout(new FlowLayout());
-		pnPass.add(new JLabel("Password:"));
-		pnPass.add(txtPassword);
-		pnMain.add(pnPass);;
-		
-		pnMain.add(btnLogin);	
-		pnMain.add(Box.createRigidArea(new Dimension(0,10)));
-		btnLogin.addActionListener(this);	
-		
-		this.setSize(400,200);				
-		this.setLocation(200,10);
+		btnLogin.setFont(new Font("SansSerif", Font.BOLD, 15));
+		btnLogin.setBackground(new Color(70, 130, 220));
+		btnLogin.setForeground(Color.WHITE);
+		btnLogin.setOpaque(true);
+		btnLogin.setBorderPainted(false);
+		btnLogin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnLogin.setPreferredSize(new Dimension(130, 38));
+		btnLogin.addActionListener(this);
+		gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
+		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.insets = new Insets(20, 10, 10, 10);
+		pnForm.add(btnLogin, gbc);
+
+		pnMain.add(pnForm);
 		this.setContentPane(pnMain);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setSize(500, 350);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		if((e.getSource() instanceof JButton)&&(((JButton)e.getSource()).equals(btnLogin))) {
+		if (e.getSource().equals(btnLogin)) {
 			User user = new User();
-			user.setUsername(txtUsername.getText());
-			user.setPassword(txtPassword.getText());
-			
-			UserDAO ud = new UserDAO();
-			if(ud.checkLogin(user)) {
-				if(user.getPosition().equalsIgnoreCase("manager")) {
-					(new ManagerHomeFrm(user)).setVisible(true);
-					this.dispose();
-				}else if(user.getPosition().equalsIgnoreCase("seller")) {
-					(new SellerHomeFrm()).setVisible(true);
-					this.dispose();
-				}else
-					JOptionPane.showMessageDialog(this, "The function of the role " + user.getPosition() + " is under construction!");
-			}else {
+			user.setUsername(txtUsername.getText().trim());
+			user.setPassword(new String(txtPassword.getPassword()));
+
+			StaffDAO sd = new StaffDAO();
+			if (sd.checkLogin(user)) {
+				(new StaffHomeFrm(user)).setVisible(true);
+				this.dispose();
+			} else {
 				JOptionPane.showMessageDialog(this, "Incorrect username and/or password!");
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
-		LoginFrm myFrame = new LoginFrm();	
-		myFrame.setVisible(true);	
+		LoginFrm myFrame = new LoginFrm();
+		myFrame.setVisible(true);
 	}
 }

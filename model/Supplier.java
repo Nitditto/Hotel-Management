@@ -2,23 +2,23 @@ package model;
 
 import java.io.Serializable;
 
-public class Hotel implements Serializable{
+public class Supplier implements Serializable {
 	private int id;
 	private String name;
 	private String address;
-	private int star;
-	private String des;
-	
-	public Hotel() {
+	private String tel;
+	private String email;
+
+	public Supplier() {
 		super();
 	}
-	
-	public Hotel(String name, String address, int star, String des) {
+
+	public Supplier(String name, String address, String tel, String email) {
 		super();
 		this.name = name;
 		this.address = address;
-		this.star = star;
-		this.des = des;
+		this.tel = tel;
+		this.email = email;
 	}
 
 	public int getId() {
@@ -45,23 +45,19 @@ public class Hotel implements Serializable{
 		this.address = address;
 	}
 
-	public int getStar() {
-		return star;
+	public String getTel() {
+		return tel;
 	}
 
-	public void setStar(int star) {
-		this.star = star;
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
-	public String getDes() {
-		return des;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setDes(String des) {
-		this.des = des;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	
-	
-	
-	
 }
