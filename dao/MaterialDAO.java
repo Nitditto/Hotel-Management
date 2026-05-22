@@ -14,16 +14,17 @@ public class MaterialDAO extends DAO {
 	}
 
 	/**
-	 * Search materials whose name contains the keyword
+	 * Search materials whose name or category contains the keyword
 	 * @param key the search keyword
-	 * @return list of materials whose name contains the keyword
+	 * @return list of materials whose name or category contains the keyword
 	 */
 	public ArrayList<Material> searchMaterial(String key) {
 		ArrayList<Material> result = new ArrayList<Material>();
-		String sql = "SELECT * FROM tblMaterial WHERE name LIKE ?";
+		String sql = "SELECT * FROM tblMaterial WHERE name LIKE ? OR category LIKE ?";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, "%" + key + "%");
+			ps.setString(2, "%" + key + "%");
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
