@@ -1,77 +1,80 @@
--- =============================================
--- Module: Importing Materials
--- Database: importing_materials (MySQL, port 3306)
--- =============================================
-
--- Sử dụng database importing_materials
+CREATE DATABASE IF NOT EXISTS importing_materials;
 USE importing_materials;
 
--- -- Bảng nhân viên (Staff)
--- CREATE TABLE IF NOT EXISTS tblStaff (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     username VARCHAR(100) NOT NULL,
---     password VARCHAR(100) NOT NULL,
---     name VARCHAR(255) NOT NULL,
---     role VARCHAR(100)
--- );
+-- Xóa các bảng cũ nếu tồn tại (để tránh lỗi tạo lại hoặc khóa ngoại)
+DROP TABLE IF EXISTS tblImportDetail;
+DROP TABLE IF EXISTS tblImportInvoice;
+DROP TABLE IF EXISTS tblStaff;
+DROP TABLE IF EXISTS tblSupplier;
+DROP TABLE IF EXISTS tblMaterial;
 
--- -- Bảng nhà cung cấp
--- CREATE TABLE IF NOT EXISTS tblSupplier (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     name VARCHAR(255) NOT NULL,
---     address VARCHAR(500),
---     tel VARCHAR(20),
---     email VARCHAR(255)
--- );
+-- 1. Bảng nhân viên (Staff) - Đã đổi 'position' thành 'role'
+CREATE TABLE tblStaff (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    role VARCHAR(100)
+);
 
--- -- Bảng vật tư (theo báo cáo: id, name, category, unitPrice)
--- CREATE TABLE IF NOT EXISTS tblMaterial (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     name VARCHAR(255) NOT NULL,
---     category VARCHAR(100),
---     unitPrice FLOAT
--- );
+-- 2. Bảng nhà cung cấp (Supplier)
+CREATE TABLE tblSupplier (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(500),
+    tel VARCHAR(20),
+    email VARCHAR(255)
+);
 
--- -- Phiếu nhập hàng (header)
--- CREATE TABLE IF NOT EXISTS tblImportInvoice (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     idsupplier INT NOT NULL,
---     idcreator INT NOT NULL,
---     importDate DATETIME NOT NULL,
---     note VARCHAR(500),
---     FOREIGN KEY (idsupplier) REFERENCES tblSupplier(id),
---     FOREIGN KEY (idcreator) REFERENCES tblStaff(id)
--- );
+-- 3. Bảng vật tư (Material)
+CREATE TABLE tblMaterial (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(100),
+    unitPrice FLOAT
+);
 
--- -- Chi tiết phiếu nhập (detail lines)
--- CREATE TABLE IF NOT EXISTS tblImportInvoiceDetail (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     idinvoice INT NOT NULL,
---     idmaterial INT NOT NULL,
---     quantity FLOAT NOT NULL,
---     unitPrice FLOAT NOT NULL,
---     FOREIGN KEY (idinvoice) REFERENCES tblImportInvoice(id),
---     FOREIGN KEY (idmaterial) REFERENCES tblMaterial(id)
--- );
+-- 4. Phiếu nhập hàng (Import Invoice - Header)
+CREATE TABLE tblImportInvoice (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idsupplier INT NOT NULL,
+    idcreator INT NOT NULL,
+    importDate DATETIME NOT NULL,
+    note VARCHAR(500),
+    FOREIGN KEY (idsupplier) REFERENCES tblSupplier(id) ON DELETE CASCADE,
+    FOREIGN KEY (idcreator) REFERENCES tblStaff(id) ON DELETE CASCADE
+);
 
--- -- =============================================
--- -- Sample data for testing
--- -- =============================================
+-- 5. Chi tiết phiếu nhập (Import Detail) - Đã đổi 'quantity' sang INT
+CREATE TABLE tblImportDetail (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idinvoice INT NOT NULL,
+    idmaterial INT NOT NULL,
+    quantity INT NOT NULL,
+    unitPrice FLOAT NOT NULL,
+    FOREIGN KEY (idinvoice) REFERENCES tblImportInvoice(id) ON DELETE CASCADE,
+    FOREIGN KEY (idmaterial) REFERENCES tblMaterial(id) ON DELETE CASCADE
+);
 
--- -- Thêm tài khoản nhân viên để login
--- INSERT INTO tblStaff (username, password, name, role) VALUES
--- ('truongnv', '123456', 'Nguyen Van Truong', 'inventoryStaff');
 
--- -- Thêm nhà cung cấp mẫu
--- INSERT INTO tblSupplier (name, address, tel, email) VALUES
--- ('Cong ty My pham ABC', '123 Nguyen Trai, Q.1, HCM', '0901234567', 'abc@supplier.com'),
--- ('Nha phan phoi XYZ', '456 Le Loi, Q.3, HCM', '0912345678', 'xyz@supplier.com'),
--- ('Dai ly Vat tu Spa Pro', '789 Tran Hung Dao, Q.5, HCM', '0923456789', 'spapro@supplier.com');
+-- =============================================
+-- DỮ LIỆU MẪU (Sample Data)
+-- =============================================
 
--- -- Thêm vật tư mẫu
--- INSERT INTO tblMaterial (name, category, unitPrice) VALUES
--- ('Kem duong da mat', 'Skincare', 250000),
--- ('Dau goi thao duoc', 'Haircare', 180000),
--- ('Thuoc nhuom toc', 'Haircare', 350000),
--- ('Tinh dau massage', 'Body care', 200000),
--- ('Sap wax long', 'Body care', 150000);
+-- Thêm tài khoản nhân viên (sử dụng cột 'role')
+INSERT INTO tblStaff (username, password, name, role) VALUES
+('truongnv', '123456', 'Nguyen Van Truong', 'inventoryStaff');
+
+-- Thêm nhà cung cấp mẫu
+INSERT INTO tblSupplier (name, address, tel, email) VALUES
+('Cong ty My pham ABC', '123 Nguyen Trai, Q.1, HCM', '0901234567', 'abc@supplier.com'),
+('Nha phan phoi XYZ', '456 Le Loi, Q.3, HCM', '0912345678', 'xyz@supplier.com'),
+('Dai ly Vat tu Spa Pro', '789 Tran Hung Dao, Q.5, HCM', '0923456789', 'spapro@supplier.com');
+
+-- Thêm vật tư mẫu
+INSERT INTO tblMaterial (name, category, unitPrice) VALUES
+('Kem duong da mat', 'Skincare', 250),
+('Dau goi thao duoc', 'Haircare', 180),
+('Thuoc nhuom toc', 'Haircare', 350),
+('Tinh dau massage', 'Body care', 200),
+('Sap wax long', 'Body care', 150);
